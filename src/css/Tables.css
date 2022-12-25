@@ -1,0 +1,49 @@
+/*
+
+*{
+
+    font-family: Fijalla one, serif;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    color: rgba(101, 9, 138, 0.87);
+}
+.tables{
+    text-align: center;
+    text-decoration: none;
+    color: #ffe221;
+    margin-left: 200px;
+
+    display: block;
+!*    margin: 0px 0% 30px 0%;*!
+}
+.heading{
+    !*text-align: center;*!
+    text-decoration: none;
+    color: rgb(248, 199, 37);
+    margin: 30px;
+    display: block;
+}
+th,td{
+    padding-inline: 50px;
+    !*background-color: #282828; *! !*BACK GROUND UNDER CELLS*!
+    color: black;
+}
+th{
+    background-color: black;
+    color: #ffe221;
+
+}
+table.col{
+      border-bottom: 3px solid #752b2b;
+}
+
+.teams:hover td{
+    color: #ec6b1f;
+}
+
+
+
+
+
+*/
