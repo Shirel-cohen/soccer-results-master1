@@ -7,96 +7,83 @@ import '../css/leagueTable.css'
 
 class LeagueTable extends React.Component{
     state = {
-        teams: [
-            {id: 0, club: "a", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
-            {id: 0, club: "b", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
+        leagueTable: [
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
-            {id: 0, club: "c", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
-            {id: 0, club: "d", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
+            {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
+            {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
+            {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
+            {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0}
         ],
-
-        currentTeamWon: 0,
-        currentTeamDraw: 0,
-        // currentTeamPoints: this.state.currentTeamWon * 3 + this.state.currentTeamDraw,
-        currentTeamPoints: 0,
-
-
-        currentTeamGf: 0,
-        currentTeamGa: 0,
-        // currentTeamGd: this.state.currentTeamGf - this.state.currentTeamGa
-        currentTeamGd: 0,
-
+        matchesFinished: [],
     };
 
-    updateState =()=>{
-       /* sendApiPostRequest("http://localhost:8989/finish-match",{
-            isLive: false
-
-        },(response)=>{
-
-        })*/
-
-        sendApiGetRequest("http://localhost:8989/get-finished-matches",(response)=>{
-
-            const finishedMatches = response.data;
-            const originalArray = this.state.teams;
-
-            finishedMatches.map((matchFinished , i)=>{
-                let team1 = matchFinished.
-                originalArray.map((team,j)=>{
-                    if (matchFinished.team1 === team.club || matchFinished.team2 ===team.club) {
-                         // matchFinished[i].team2
-                        if (matchFinished[i].team2Goals === matchFinished.team1Goals) {
-                            //add  to one draw but this not in state!!
-                            originalArray[j].Drawn += 1;
-                            originalArray[j].GF += matchFinished[i].team1Goals
-                            this.setState({
-                                teams: originalArray
-                            })
-                        }
-                    }
-                })
-            })
-
-
-        })
-
-
-
-
-        this.setState({
-            currentTeamGd: this.state.currentTeamGf - this.state.currentTeamGa,
-            currentTeamPoints: this.state.currentTeamWon * 3 + this.state.currentTeamDraw,
-
-
-        })
-
-    }
-
-
-
-
     componentDidMount() {
+        // get Clubs from server :
         sendApiGetRequest("http://localhost:8989/get-groups" , (response)=>{
             const teams = response.data;
-            const originalArray = this.state.teams;
-
-
+            const originalArray = this.state.leagueTable;
             originalArray.map((currentClub , i)=>{
                 currentClub.club = teams[i].name;
                 currentClub.id = teams[i].id;
             })
             this.setState({
-                teams: originalArray
+                leagueTable: originalArray
+            })
+
+            sendApiGetRequest("http://localhost:8989/get-finished-matches" , (response)=>{
+                const matchFinished = response.data;
+                this.calc(matchFinished, originalArray);
             })
         });
+
+    }
+
+    calc = (games , league)=>{
+        games.forEach(game => {
+            let team1Index = league.findIndex(league => league.club === game.team1);
+            let team2Index = league.findIndex(league => league.club === game.team2);
+            debugger
+            //add goals gf
+            league[team1Index].GF += game.team1Goals;
+            league[team2Index].GF += game.team2Goals;
+
+            //add goals Against
+            league[team1Index].GA += game.team2Goals;
+            league[team2Index].GA += game.team1Goals;
+            //calc diffG
+            league[team1Index].GD += game.team1Goals - game.team2Goals;
+            league[team2Index].GD += game.team2Goals - game.team1Goals;
+            //
+            if (game.team1Goals > game.team2Goals) {
+                league[team1Index].Won+=1;
+                league[team2Index].Lost++;
+                league[team1Index].Points += 3;
+            } else if (game.team1Goals < game.team2Goals) {
+                league[team2Index].Won+=1;
+                league[team1Index].Lost++;
+                league[team2Index].Points += 3;
+            } else {
+                league[team1Index].Drawn += 1;
+                league[team2Index].Drawn += 1;
+                league[team1Index].Points += 1;
+                league[team2Index].Points += 1;
+            }
+
+        });
+
+        this.setState({
+            leagueTable: league,
+
+        })
+
+
     }
 
 
@@ -126,7 +113,7 @@ class LeagueTable extends React.Component{
 
 
 
-                            this.state.teams.map((team) => {
+                            this.state.leagueTable.map((team) => {
 
 
 
@@ -156,7 +143,5 @@ class LeagueTable extends React.Component{
         );
     }
 
-
 }
-
 export default LeagueTable;
