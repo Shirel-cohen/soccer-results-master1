@@ -1,26 +1,51 @@
 import React from "react";
-import '../css/Tables.css'
+
+
 
 
 function Tables(props) {
-    const teams = props.teams;
+    const leagueTable = props.league;
 
     return (
         <div className={"tables"}>
+            <table>
+                <tr className={"col"}>
+                    <th scope={"col"}>#</th>
+                    <th className={"left"} scope={"coll"}>TEAM</th>
+                    <th scope={"col"}>PTS</th>
+                    <th scope={"col"}>W</th>
+                    <th scope={"col"}>D</th>
+                    <th scope={"col"}>L</th>
+                    <th scope={"col"}> GF</th>
+                    <th>GA</th>
+                    <th scope={"col"}>GD</th>
+                    {/*<th>POSITION</th>*/}
+                </tr>
+
+
+                {/*<Tables teams={this.state.teams}/>*/}
                 {
-                    teams.map((team) => {
+
+                    leagueTable.map((team) => {
                         return (
-                            <tr className={"teams"}>
-                                <td>{props.id}</td>
-                                <td>{props.points}</td>
-                                <td>{props.name}</td>
-                                <td>{props.inFavorGoals}</td>
-                                <td>{props.goalsAgainst}</td>
+                            <tr className={"wpos"}>
+                                <td>{team.id}</td>
+                                <td className={"left"} scope={"row"}>{team.club}</td>
+                                <td>{team.Points}</td>
+                                <td>{team.Won}</td>
+                                <td>{team.Drawn}</td>
+                                <td>{team.Lost}</td>
+                                <td>{team.GF}</td>
+                                <td> {team.GA}</td>
+                                <td>{team.GD}</td>
+                                <td>{team.position}</td>
                             </tr>
                         );
+
+
                     })
                 }
-
+            </table>
 
 
         </div>

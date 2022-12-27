@@ -141,6 +141,7 @@ class Login extends  React.Component {
             team2: this.state.option2,
             team2Goals: this.state.groupTwoGoals
         }, (response) => {
+
             if (response.data) {
                 alert("goal Added!");
             }

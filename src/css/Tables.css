@@ -1,49 +1,48 @@
+
+
 /*
-
 *{
+       font-family: Fjalla One, serif;
+    color: #990033;
 
-    font-family: Fijalla one, serif;
-    margin: 0;
-    border: 0;
-    padding: 0;
-    color: rgba(101, 9, 138, 0.87);
 }
-.tables{
-    text-align: center;
-    text-decoration: none;
-    color: #ffe221;
-    margin-left: 200px;
+*/
 
-    display: block;
-!*    margin: 0px 0% 30px 0%;*!
+
+
+
+.league-table table{
+    margin: 20px auto;
+    border-collapse: collapse;
 }
-.heading{
-    !*text-align: center;*!
-    text-decoration: none;
-    color: rgb(248, 199, 37);
-    margin: 30px;
-    display: block;
+.league-table{
+    margin: 0px 0% 30px 0%;
 }
-th,td{
-    padding-inline: 50px;
-    !*background-color: #282828; *! !*BACK GROUND UNDER CELLS*!
-    color: black;
+th, td {
+    /*padding: 10px;*/
 }
 th{
-    background-color: black;
-    color: #ffe221;
-
-}
-table.col{
-      border-bottom: 3px solid #752b2b;
+    padding: 15px;
+    background-color: rgba(154, 152, 101, 0.25);
+    /*    color: #500000;*/
+    color: #CC9933;
 }
 
-.teams:hover td{
-    color: #ec6b1f;
+.wpos{
+    text-align: center;
+}
+.wpos td{
+    color: rgba(220, 165, 26, 0.68)
 }
 
+.wpos:hover{
+    background-color: rgba(215, 213, 213, 0.1);
 
+}
+.wpos:hover.td{
+   color: rgb(79, 79, 66);
 
-
-
-*/
+}
+.left {
+    padding-right: 250px;
+}

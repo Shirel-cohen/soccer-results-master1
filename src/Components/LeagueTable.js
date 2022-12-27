@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {sendApiGetRequest, sendApiPostRequest} from "./AppResponse";
-import '../css/leagueTable.css'
+import Tables from "./Tables";
 
 
 
@@ -8,13 +8,13 @@ import '../css/leagueTable.css'
 class LeagueTable extends React.Component{
     state = {
         leagueTable: [
+            {id: 0, club: "0", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
+            {id: 0, club: "0", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
-            {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
-            {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
-            {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
-            {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
+            {id: 0, club: "e", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
+            {id: 0, club: "f", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0},
@@ -40,6 +40,10 @@ class LeagueTable extends React.Component{
             sendApiGetRequest("http://localhost:8989/get-finished-matches" , (response)=>{
                 const matchFinished = response.data;
                 this.calc(matchFinished, originalArray);
+                const sortedTable = this.sort(originalArray);
+                this.setState({
+                    leagueTable: sortedTable,
+                })
             })
         });
 
@@ -49,7 +53,6 @@ class LeagueTable extends React.Component{
         games.forEach(game => {
             let team1Index = league.findIndex(league => league.club === game.team1);
             let team2Index = league.findIndex(league => league.club === game.team2);
-            debugger
             //add goals gf
             league[team1Index].GF += game.team1Goals;
             league[team2Index].GF += game.team2Goals;
@@ -82,63 +85,40 @@ class LeagueTable extends React.Component{
             leagueTable: league,
 
         })
-
-
     }
 
+    sort = (leagueTable)=>{
+        leagueTable.sort((team1, team2) => {
+
+                if (team1.Points > team2.Points)
+                    return -1;
+                if (team1.Points < team2.Points)
+                    return 1;
+
+
+                if (team1.GD > team2.GD)
+                    return -1;
+                if (team1.GD < team2.GD)
+                    return 1;
+
+
+                if (team1.club.toUpperCase() < team2.club.toUpperCase())
+                return -1;
+                if (team1.club.toUpperCase() > team2.club.toUpperCase())
+                    return 1;
+
+                return 0;
+            }
+        );
+
+                return leagueTable;
+            }
 
 
     render() {
         return (
-            <div >
-                <div className={"league-table"}>
-
-                    <h1 className={"heading"}> STANDING</h1>
-                    <table>
-                        <tr className={"col"}>
-                            <th>#</th>
-                            <th className={"left"}>TEAM</th>
-                            <th>PTS</th>
-                            <th>W</th>
-                            <th>D</th>
-                            <th>L</th>
-                            <th>+/-</th>
-                            <th>GD</th>
-                            {/*<th>POSITION</th>*/}
-                        </tr>
-
-
-                        {/*<Tables teams={this.state.teams}/>*/}
-                         {
-
-
-
-                            this.state.leagueTable.map((team) => {
-
-
-
-
-                                return (
-                                    <tr className={"wpos"}>
-                                        <td >{team.id}</td>
-                                        <td className={"left"}>{team.club}</td>
-                                        <td>{team.Points}</td>
-                                        <td>{team.Won}</td>
-                                        <td>{team.Drawn}</td>
-                                        <td>{team.Lost}</td>
-                                        <td>{team.GF} - {team.GA}</td>
-                                        <td>{team.GD}</td>
-                                        {/*<td>{team.position}</td>*/}
-                                    </tr>
-                                );
-
-
-                            })
-                        }
-                    </table>
-                </div>
-
-
+            <div className={"league-table"}>
+                <Tables league = {this.state.leagueTable}/>
             </div>
         );
     }

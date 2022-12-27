@@ -1,13 +1,13 @@
 import React from "react";
-import "../css/leagueTable.css"
-import "../css/LiveResult.css"
+import "../css/Tables.css"
+
 import {sendApiGetRequest} from "./AppResponse";
 
-class LiveResults extends React.Component{
+
+class LiveMatches extends React.Component{
     state= {
         liveGames: []
     }
-
     componentDidMount() {
         sendApiGetRequest("http://localhost:8989/get-live-games" , (response)=>{
             this.setState({
@@ -51,46 +51,63 @@ class LiveResults extends React.Component{
 
         /*  <td style={{color :this.matchResult(game)}}>{game.team1}</td>
           <td style={{color : this.matchResult(game)}}>{game.team1Goals}</td>*/
-
-
     };
-    render() {
 
+    renderLiveMatches = () => {
         return (
-
-            <div className={"head"}>
-                <div className="content">
-                    <h2>Live</h2>
-                    <h2>Live</h2>
-                </div>
-                <div className={"league-table"} >
+                <div>
 
                     <table>
                         <tr className={"col"}>
-                            <th>T1</th>
+                            <th>HOME</th>
                             <th>T1G</th>
                             <th>T2G</th>
-                            <th>T2</th>
+                            <th>AWAY</th>
                         </tr>
 
                         {
                             this.state.liveGames.map((game) => {
                                 return (
-                                    <tr className={ "wpos"}>
+                                    <tr className={"wpos"}>
 
-                                        <td style={{color :this.colorTeam1(game)}}>{game.team1}</td>
-                                        <td style={{color : this.colorTeam1(game)}}>{game.team1Goals}</td>
+                                        <td style={{color: this.colorTeam1(game)}}>{game.team1}</td>
+                                        <td style={{color: this.colorTeam1(game)}}>{game.team1Goals}</td>
 
 
-
-                                        <td style={{color :this.colorTeam2(game)}} >{game.team2Goals}</td>
-                                        <td style={{color :this.colorTeam2(game)}}>{game.team2}</td>
+                                        <td style={{color: this.colorTeam2(game)}}>{game.team2Goals}</td>
+                                        <td style={{color: this.colorTeam2(game)}}>{game.team2}</td>
                                     </tr>
                                 );
                             })
                         }
                     </table>
                 </div>
+        )
+
+    };
+    renderNoMatches = () => {
+        return (
+            <div>
+                <div className="content">
+                    <h2>NO LIVE TONIGHT</h2>
+                    <h2>NO LIVE TONIGHT</h2>
+                </div>
+
+            </div>
+        );
+
+    };
+    render() {
+
+        return (
+
+            <div className={ "league-table"}>
+                {
+                    this.state.liveGames.length > 0 ? this.renderLiveMatches() : this.renderNoMatches()
+
+                }
+
+
             </div>
         );
 
@@ -98,4 +115,4 @@ class LiveResults extends React.Component{
 
 
 }
-export default LiveResults;
+export default LiveMatches;

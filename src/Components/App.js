@@ -1,18 +1,19 @@
 import '../css/App.css';
 import {BrowserRouter,NavLink,Route, Routes} from "react-router-dom"
-import LiveResults from "./LiveResults";
+
 import LeagueTable from "./LeagueTable";
 import LeagueTableLive from "./LeagueTableLive";
 import Login from "./Login";
 import '../others/index.css';
+import LiveMatches from "./LiveMatches";
 
 function App() {
     const links=[
         // {to:"/", text:"home page"},
-        {to:"LiveResults", text:"LIVE MATCHES"},
+        {to:"LiveResults", text:"  LIVE MATCHES"},
         {to:"LeagueTable", text:"LEAGUE TABLE"},
-        {to:"LeagueTableLive", text:"LIVE RESULT"},
-        {to:"Login", text:"LOGIN"},
+        {to:"LeagueTableLive", text:"LEAGUE LIVE "},
+        {to:"Login", text:"LOG-IN"},
     ]
 
     // const activeMenuClass=({isActive})=>(isActive ? "active-menu" : "non-active-menu");
@@ -37,7 +38,7 @@ function App() {
 
                 <Routes>
                     <Route path={"/Login"} element ={<Login/>}/>
-                    <Route path={"/LiveResults"} element ={<LiveResults/>}/>
+                    <Route path={"/LiveResults"} element ={<LiveMatches/>}/>
                     <Route path={"/LeagueTableLive"} element = {<LeagueTableLive/>}/>
                     <Route path={"/LeagueTable"}  element={<LeagueTable/>}/>
 
