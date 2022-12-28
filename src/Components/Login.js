@@ -3,6 +3,8 @@ import {sendApiGetRequest, sendApiPostRequest} from "./AppResponse";
 import React from "react";
 import axios from "axios";
 import liveMatches from "./LiveMatches";
+import Tables from "./Tables";
+import RenderGame from "./RenderGame";
 class Login extends  React.Component {
     state= {
         username: "",
@@ -33,21 +35,18 @@ class Login extends  React.Component {
         console.log(this.state)
 
     }
-    finishMatch = () =>{
+    finishMatch = (team1,isAlive) =>{
         sendApiPostRequest("http://localhost:8989/finish-match",
             {
-                team1: this.state.option1,
-                isLive: false,
+                team1: team1,
+                isLive: isAlive,
             }, (response) => {
                 if (response.data.isLive === false) {
                     alert("match finished");
                 }
             });
         // rest goals:
-        this.setState({
-            groupOneGoals: 0,
-            groupTwoGoals: 0,
-        })
+
 
     }
     componentDidMount() {
@@ -94,15 +93,12 @@ class Login extends  React.Component {
             team1: this.state.option1,
             team2: this.state.option2,
             isLive: true,
-
         }, (response) => {
             if (response.data.success) {
                 this.setState({
                     isClicked: true
                 })
-                alert("Game saved!");
-
-            }
+                alert("Game saved!");}
             else if(response.data.errorCode === 1)
                 alert("One of the teams is already playing, please choose a different one!");
         })
@@ -127,31 +123,30 @@ class Login extends  React.Component {
             option2: text2
         })
     }
-    selectedEdit = () => {
-        let option = document.getElementById("editOption");
-        let index = option.options[option.selectedIndex].var;
 
+    addScoredGoals = (goalsA, team1) =>  {
+        let array=[...this.state.liveMatches]
+       array.map(team=>{
+           if (team.team1===team1){
+               debugger
+               team.team1Goals
+                   +=goalsA;
+           }
+       })
         this.setState({
-            optionEdit: index
+            liveMatches:array
         })
-
-        let Team1= this.state.liveMatches[index].team1;
-        let team1Goals = this.state.liveMatches[index].team1Goals;
-        this.setState({
-            option1: Team1,
-            groupOneGoals: team1Goals
-        })
-        this.addGoalsGroupOne();
-    }
-    addGoalsGroupOne = (id) =>  {
-        let counter = this.state.groupOneGoals;
-        this.setState({
-            groupOneGoals: counter+1
-        })
+        // let counter = this.state.groupOneGoals;
+        // let counter2 = this.state.groupTwoGoals;
+        //
+        // this.setState({
+        //     groupOneGoals: counter+1,
+        //     groupTwoGoals:counter2+1
+        // })
 
         sendApiPostRequest("http://localhost:8989/update-team1-goals", {
-            team1: this.state.option1,
-            team1Goals: this.state.groupOneGoals
+            team1: team1,
+            team1Goals: goalsA
         }, (response) => {
             if (response.data) {
                 alert("goal Added!");
@@ -159,14 +154,21 @@ class Login extends  React.Component {
         })
     }
 
-    addGoalsGroupTwo = (e) => {
-        let counter = this.state.groupTwoGoals;
+    addGoalsGroupTwo = (goalsB,team2) => {
+        let array=[...this.state.liveMatches]
+        array.map(team=>{
+            if (team.team2===team2){
+                debugger
+                team.team2Goals
+                    +=goalsB;
+            }
+        })
         this.setState({
-            groupTwoGoals:counter+1
+            liveMatches:array
         })
         sendApiPostRequest("http://localhost:8989/update-team2-goals", {
-            team2: this.state.option2,
-            team2Goals: this.state.groupTwoGoals
+            team2: team2,
+            team2Goals: goalsB
         }, (response) => {
 
             if (response.data) {
@@ -175,7 +177,7 @@ class Login extends  React.Component {
         })
     }
 
-     replay (id){
+    replay (id){
 
     }
 
@@ -200,6 +202,7 @@ class Login extends  React.Component {
     render(){
         {
             return (
+
                 this.state.renderOption ?
                     <div>
                         <div id={"group1"}>
@@ -220,7 +223,6 @@ class Login extends  React.Component {
                         <div id={"group2"}>
                             <br/>
                             <br/>
-
                             Group 2
                             <br/>
                             <select id={"option2"} onChange={this.selectedGroup2}>
@@ -239,50 +241,25 @@ class Login extends  React.Component {
                                 disabled={this.state.groupOneGoals !== 0 || this.state.groupTwoGoals !== 0}>save
                         </button>
                         {this.state.isClicked ?
-
                             <div>
-                            <table id={"table"}>
-                            <tr>
-                            <th>team1</th>
-                            <th>GT1</th>
-                            <th>team2</th>
-                            <th>GT2</th>
-                            <th>edit/finish</th>
+                                {this.state.liveMatches.map((match)=>{
+                                    return(
+                                        <div>
+                                            <RenderGame match = {match}  addGoals1={this.addScoredGoals}
+                                                        addGoals2={this.addGoalsGroupTwo}
+                                                         finish={this.finishMatch}/>
+                                        </div>
+                                    )
+                                })}
 
-                            </tr>
-                                {
-                                    this.state.liveMatches.map((match,i) => {
-                                        return(
-                                            <tr>
-                                                <td>{match.team1}</td>
-
-                                                <td> {match.team1Goals}
-                                                    <button  onClick={this.addGoalsGroupOne}
-                                                             disabled={!this.state.isClicked}>Add Goal  </button>
-                                                </td>
-                                                <td>{match.team2}
-                                                </td>
-                                                <td>{match.team2Goals}
-                                                        <button  onClick={this.addGoalsGroupTwo}
-                                                          disabled={!this.state.isClicked}>Add Goal
-                                                    </button>
-
-                                                </td>
-                                                <td><button>edit</button>
-                                                <button>finish match</button></td>
-                                            </tr>
-                                        )
-                                    })
-                               }
-                            </table>
                             </div>
                             : ""
                         }
                         <br/>
-                        <button onClick={this.finishMatch}
-                            // end match = rest the goals and the selects options
-                                disabled={this.state.option1.selected && this.state.option2.selected}>End Game
-                        </button>
+                        {/*<button onClick={this.finishMatch}*/}
+                        {/*    // end match = rest the goals and the selects options*/}
+                        {/*        disabled={this.state.option1.selected && this.state.option2.selected}>End Game*/}
+                        {/*</button>*/}
 
                     </div>
                     : this.login()

@@ -24,7 +24,6 @@ class LiveMatches extends React.Component{
             colorStyle = "red";
 
 
-
         if (game.team1Goals === game.team2Goals)
              colorStyle = "#f5d12e";
 
@@ -81,6 +80,8 @@ class LiveMatches extends React.Component{
                             })
                         }
                     </table>
+
+
                 </div>
         )
 

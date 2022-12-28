@@ -23,16 +23,16 @@ th, td {
 }
 th{
     padding: 15px;
-    background-color: rgba(154, 152, 101, 0.25);
+    background-color: rgba(52, 140, 1, 0.25);
     /*    color: #500000;*/
-    color: #CC9933;
+    color: #c9ae06;
 }
 
 .wpos{
     text-align: center;
 }
 .wpos td{
-    color: rgba(220, 165, 26, 0.68)
+    color: rgb(201, 174, 6)
 }
 
 .wpos:hover{

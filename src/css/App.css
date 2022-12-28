@@ -47,7 +47,7 @@
 .App {
 
 
-  background-color: rgb(40, 40, 40);
+  background-image: url("https://www.nicepng.com/png/detail/331-3312275_yayatoure1-premier-league-players-white-background.png");
 
   color: #e10c0c;
   font-size: 44px;
@@ -132,7 +132,6 @@ button[type=login] {
    margin: 20px;
  }
  #table{
-   position: relative;
    top: -650px;
    width: 300px;
    background-color: rgba(204, 159, 9, 0.06);

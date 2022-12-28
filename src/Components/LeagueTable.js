@@ -48,6 +48,11 @@ class LeagueTable extends React.Component{
         });
 
     }
+// componentDidUpdate(prevProps, prevState, snapshot) {
+//         if(prevProps.matchesFinished!==prevState.matchesFinished){
+//
+//         }
+// }
 
     calc = (games , league)=>{
         games.forEach(game => {
@@ -110,10 +115,8 @@ class LeagueTable extends React.Component{
                 return 0;
             }
         );
-
                 return leagueTable;
             }
-
 
     render() {
         return (

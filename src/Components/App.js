@@ -1,3 +1,4 @@
+
 import '../css/App.css';
 import {BrowserRouter,NavLink,Route, Routes} from "react-router-dom"
 
@@ -39,7 +40,7 @@ function App() {
                 </ul>
 
                 <Routes>
-                    <Route path={"/LoginHooks"} element ={<Login/>}/>
+                    <Route path={"/Login"} element ={<Login/>}/>
                     <Route path={"/LiveResults"} element ={<LiveMatches/>}/>
                     <Route path={"/LeagueTableLive"} element = {<LeagueTableLive/>}/>
                     <Route path={"/LeagueTable"}  element={<LeagueTable/>}/>
