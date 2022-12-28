@@ -2,6 +2,7 @@ import {sendApiGetRequest, sendApiPostRequest} from "./AppResponse";
 
 import React from "react";
 import axios from "axios";
+import liveMatches from "./LiveMatches";
 class Login extends  React.Component {
     state= {
         username: "",
@@ -16,7 +17,9 @@ class Login extends  React.Component {
         option2: "",
         groupOneGoals: 0,
         groupTwoGoals: 0,
-        isClicked: false
+        isClicked: false,
+        liveMatches: [],
+        optionEdit: ""
     }
     addUserName = (e) => {
         this.setState({
@@ -98,9 +101,15 @@ class Login extends  React.Component {
                     isClicked: true
                 })
                 alert("Game saved!");
+
             }
             else if(response.data.errorCode === 1)
                 alert("One of the teams is already playing, please choose a different one!");
+        })
+        sendApiGetRequest("http://localhost:8989/get-live-games" , (res)=>{
+            this.setState({
+                liveMatches: res.data,
+            })
         })
     }
     selectedGroup1 = () => {
@@ -118,11 +127,28 @@ class Login extends  React.Component {
             option2: text2
         })
     }
-    addGoalsGroupOne = (e) => {
+    selectedEdit = () => {
+        let option = document.getElementById("editOption");
+        let index = option.options[option.selectedIndex].var;
+
+        this.setState({
+            optionEdit: index
+        })
+
+        let Team1= this.state.liveMatches[index].team1;
+        let team1Goals = this.state.liveMatches[index].team1Goals;
+        this.setState({
+            option1: Team1,
+            groupOneGoals: team1Goals
+        })
+        this.addGoalsGroupOne();
+    }
+    addGoalsGroupOne = (id) =>  {
         let counter = this.state.groupOneGoals;
         this.setState({
-            groupOneGoals:counter+1
+            groupOneGoals: counter+1
         })
+
         sendApiPostRequest("http://localhost:8989/update-team1-goals", {
             team1: this.state.option1,
             team1Goals: this.state.groupOneGoals
@@ -132,6 +158,7 @@ class Login extends  React.Component {
             }
         })
     }
+
     addGoalsGroupTwo = (e) => {
         let counter = this.state.groupTwoGoals;
         this.setState({
@@ -147,6 +174,12 @@ class Login extends  React.Component {
             }
         })
     }
+
+     replay (id){
+
+    }
+
+
     login = () => {
         return (
             <div>
@@ -175,50 +208,82 @@ class Login extends  React.Component {
                             <select id={"option1"} onChange={this.selectedGroup1}>
                                 <option value="">-Please choose a group-</option>
                                 {
-                                    this.state.clubs.map((team) => {
-                                        let disabled = team.toString() === this.state.option2
+                                    this.state.clubs.map((team,i) => {
+                                        let disabled = team.name === this.state.option2
                                         return (
-                                            <option value={team.id} disabled={disabled}>{team.name}</option>
+                                            <option value={i} disabled={disabled}>{team.name}</option>
                                         )
                                     })
                                 }
                             </select>
-                            <div>{this.state.groupOneGoals}
-                                <button id={"addGoal"} onClick={this.addGoalsGroupOne}
-                                        disabled={!this.state.isClicked}>Add Goal
-                                </button>
-                            </div>
                         </div>
                         <div id={"group2"}>
                             <br/>
                             <br/>
+
                             Group 2
                             <br/>
                             <select id={"option2"} onChange={this.selectedGroup2}>
                                 <option value="">-Please choose a group-</option>
                                 {
-                                    this.state.clubs.map((team) => {
-                                        let disabled = team.toString() === this.state.option1
+                                    this.state.clubs.map((team,i) => {
+                                        let disabled = team.name === this.state.option1
                                         return (
-                                            <option value={team.id} disabled={disabled}>{team.name}</option>
+                                            <option value={i} disabled={disabled}>{team.name}</option>
                                         )
                                     })
                                 }
                             </select>
-                            <div>{this.state.groupTwoGoals}
-                                <button id={"addGoal"} onClick={this.addGoalsGroupTwo}
-                                        disabled={!this.state.isClicked}>Add Goal
-                                </button>
-                            </div>
                         </div>
                         <button onClick={this.saveMatch}
                                 disabled={this.state.groupOneGoals !== 0 || this.state.groupTwoGoals !== 0}>save
                         </button>
+                        {this.state.isClicked ?
+
+                            <div>
+                            <table id={"table"}>
+                            <tr>
+                            <th>team1</th>
+                            <th>GT1</th>
+                            <th>team2</th>
+                            <th>GT2</th>
+                            <th>edit/finish</th>
+
+                            </tr>
+                                {
+                                    this.state.liveMatches.map((match,i) => {
+                                        return(
+                                            <tr>
+                                                <td>{match.team1}</td>
+
+                                                <td> {match.team1Goals}
+                                                    <button  onClick={this.addGoalsGroupOne}
+                                                             disabled={!this.state.isClicked}>Add Goal  </button>
+                                                </td>
+                                                <td>{match.team2}
+                                                </td>
+                                                <td>{match.team2Goals}
+                                                        <button  onClick={this.addGoalsGroupTwo}
+                                                          disabled={!this.state.isClicked}>Add Goal
+                                                    </button>
+
+                                                </td>
+                                                <td><button>edit</button>
+                                                <button>finish match</button></td>
+                                            </tr>
+                                        )
+                                    })
+                               }
+                            </table>
+                            </div>
+                            : ""
+                        }
                         <br/>
                         <button onClick={this.finishMatch}
                             // end match = rest the goals and the selects options
                                 disabled={this.state.option1.selected && this.state.option2.selected}>End Game
                         </button>
+
                     </div>
                     : this.login()
             );

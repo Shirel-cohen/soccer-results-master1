@@ -38,6 +38,10 @@ class LeagueTableLive extends React.Component {
             sendApiGetRequest("http://localhost:8989/get-all-matches", (response) => {
                 const matches = response.data;
                 this.calc(matches, originalArray);
+                const sortTable = this.sort(originalArray);
+                this.setState({
+                    leagueTable:sortTable
+                })
             })
         });
     }
@@ -79,6 +83,32 @@ class LeagueTableLive extends React.Component {
 
 
     };
+    sort = (leagueTable)=>{
+        leagueTable.sort((team1, team2) => {
+
+                if (team1.Points > team2.Points)
+                    return -1;
+                if (team1.Points < team2.Points)
+                    return 1;
+
+
+                if (team1.GD > team2.GD)
+                    return -1;
+                if (team1.GD < team2.GD)
+                    return 1;
+
+
+                if (team1.club.toUpperCase() < team2.club.toUpperCase())
+                    return -1;
+                if (team1.club.toUpperCase() > team2.club.toUpperCase())
+                    return 1;
+
+                return 0;
+            }
+        );
+
+        return leagueTable;
+    }
 
 
 
