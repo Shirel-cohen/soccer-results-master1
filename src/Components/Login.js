@@ -1,9 +1,6 @@
 import {sendApiGetRequest, sendApiPostRequest} from "./AppResponse";
 
 import React from "react";
-import axios from "axios";
-import liveMatches from "./LiveMatches";
-import Tables from "./Tables";
 import RenderGame from "./RenderGame";
 class Login extends  React.Component {
     state= {
@@ -153,6 +150,7 @@ class Login extends  React.Component {
             }
         })
     }
+
     addGoalsGroupTwo = (goalsB,team2) => {
         let array=[...this.state.liveMatches]
         array.map(team=>{
@@ -175,6 +173,7 @@ class Login extends  React.Component {
             }
         })
     }
+
     saveMatch = () => {
         sendApiPostRequest("http://localhost:8989/save-match", {
             team1: this.state.option1,
@@ -187,8 +186,6 @@ class Login extends  React.Component {
                 })
                 alert("Game saved!");
             }
-            /* else if(response.data.errorCode === 1)
-                 alert("One of the teams is already playing, please choose a different one!");*/
         });
         sendApiGetRequest("http://localhost:8989/get-live-games" , (res)=>{
             this.setState({
@@ -197,6 +194,7 @@ class Login extends  React.Component {
         })
          return  this.updateTeamsNotPlaying();
     }
+
     filterByLiveMatches = (club)=>{
         const liveMatches = this.state.liveMatches;
         let notPlaying = true;
@@ -208,15 +206,12 @@ class Login extends  React.Component {
         return notPlaying;
 
     }
+
     updateTeamsNotPlaying = ()=>{
         const teamsNotPlating = this.state.clubs;
         return teamsNotPlating.filter(this.filterByLiveMatches);
-      /*  this.setState({
-            clubs:teamsNotPlating
-        })*/
-
-
     }
+
     updateClicked =()=>{
         this.setState({
             isClicked: true,
@@ -224,7 +219,17 @@ class Login extends  React.Component {
         })
     }
 
+    getData = () => {
+        sendApiGetRequest("http://localhost:8989/get-live-games" , (response)=>{
+            this.setState({
+                liveMatches:response.data
+            })
+        })
+
+    }
+
     renderLiveGamesForEdit = ()=>{
+        setInterval(this.getData,5000);
         return (
             <div>
                 {

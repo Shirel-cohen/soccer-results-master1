@@ -7,6 +7,7 @@ function Tables(props) {
     const leagueTable = props.league;
 
 
+
     return (
         <div className={"tables"}>
 

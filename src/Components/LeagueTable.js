@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {sendApiGetRequest, sendApiPostRequest} from "./AppResponse";
 import Tables from "./Tables";
-import axios from "axios";
+
 
 
 
@@ -37,7 +37,6 @@ class LeagueTable extends React.Component{
             this.setState({
                 leagueTable: originalArray
             })
-
             sendApiGetRequest("http://localhost:8989/get-finished-matches" , (response)=>{
                 const matchFinished = response.data;
                 this.calc(matchFinished, originalArray);
@@ -50,17 +49,22 @@ class LeagueTable extends React.Component{
         });
 
     }
-    getData = () => {
-        sendApiGetRequest("http://localhost:8989/get-finished-matches" , (response)=>{
-            const matchFinished = response.data;
-            this.setState({
-                matchesFinished: matchFinished
-            })
-        })
-    }
 
 
     calc = (games , league)=>{
+        let  tableLeague2=[...this.state.leagueTable]
+        tableLeague2.map(i=>{
+            i.Points=0;
+            i.GD=0;
+            i.GA=0;
+            i.Drawn=0;
+            i.Won=0;
+            i.Lost=0;
+            i.GF=0;
+        })
+        this.setState({
+            leagueTable:tableLeague2
+        })
         games.forEach(game => {
             let team1Index = league.findIndex(league => league.club === game.team1);
             let team2Index = league.findIndex(league => league.club === game.team2);
@@ -92,10 +96,9 @@ class LeagueTable extends React.Component{
 
         });
 
-        //this.setState({
-           // leagueTable: league,
-
-       // })
+        this.setState({
+            leagueTable: league
+        })
     }
 
     sort = (leagueTable)=>{
@@ -125,7 +128,6 @@ class LeagueTable extends React.Component{
             }
 
     render() {
-        setInterval(this.getData,1000);
         return (
             <div className={"league-table"}>
                 <h6>League Table</h6>

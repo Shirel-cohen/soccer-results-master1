@@ -20,39 +20,60 @@ class LeagueTableLive extends React.Component {
             {id: 0, club: "", Points: 0, Won: 0, Drawn: 0, Lost: 0, GF: 0, GA: 0, GD: 0}
         ],
 
-
     };
 
-    componentDidMount() {
 
-        sendApiGetRequest("http://localhost:8989/get-groups", (response) => {
+    componentDidMount() {
+        // get Clubs from server :
+        sendApiGetRequest("http://localhost:8989/get-groups" , (response)=>{
             const teams = response.data;
-            const originalArray = [...this.state.leagueTable];
-            originalArray.map((currentClub, i) => {
+            const originalArray = this.state.leagueTable;
+            originalArray.map((currentClub , i)=>{
                 currentClub.club = teams[i].name;
                 currentClub.id = teams[i].id;
             })
             this.setState({
                 leagueTable: originalArray
-            });
-            sendApiGetRequest("http://localhost:8989/get-all-matches", (response) => {
-                const matches = response.data;
-                this.calc(matches, originalArray);
-                const sortTable = this.sort(originalArray);
+            })
+
+            sendApiGetRequest("http://localhost:8989/get-all-matches" , (response)=>{
+                debugger
+              //  this.state.leagueTable.length=0;
+                const matchFinished = response.data;
+                this.calc(matchFinished, originalArray);
+                const sortedTable = this.sort(originalArray);
                 this.setState({
-                    leagueTable:sortTable
+                    leagueTable: sortedTable,
+
                 })
             })
         });
+
     }
 
 
 
     calc = (games, league) => {
+        debugger
+        let  tableLeague=[...this.state.leagueTable]
+        tableLeague.map(i=>{
+            i.Points=0;
+            i.GD=0;
+            i.GA=0;
+            i.Drawn=0;
+            i.Won=0;
+            i.Lost=0;
+            i.GF=0;
+        })
+        this.setState({
+            leagueTable:tableLeague
+        })
+
         games.forEach(game => {
             let team1Index = league.findIndex(league => league.club === game.team1);
             let team2Index = league.findIndex(league => league.club === game.team2);
             //add goals gf
+            console.log(team1Index)
             league[team1Index].GF += game.team1Goals;
             league[team2Index].GF += game.team2Goals;
 
@@ -78,26 +99,13 @@ class LeagueTableLive extends React.Component {
                 league[team2Index].Points += 1;
             }
         });
-
-        //
-        // this.setState({
-        //     leagueTable: league,
-        // })
+        this.setState({
+            leagueTable: league,
+        })
 
 
     };
 
-// getData = () => {
-//     sendApiGetRequest("http://localhost:8989/get-all-matches", (response) => {
-//         const matches = response.data;
-//         const originalArray = this.state.leagueTable;
-//         const sortTable = this.sort(originalArray);
-//         this.setState({
-//             leagueTable:sortTable
-//         })
-//     })
-//
-// }
 
     sort = (leagueTable)=>{
         leagueTable.sort((team1, team2) => {
@@ -135,12 +143,8 @@ class LeagueTableLive extends React.Component {
 
             <div className={"league-table"}>
                <h6>League Table Live</h6>
-
                 <Tables league = {this.state.leagueTable}/>
-
-                    {/*  <Tables data = {this.state.leagueTable}/>*/}
             </div>
-
         );
     }
 
