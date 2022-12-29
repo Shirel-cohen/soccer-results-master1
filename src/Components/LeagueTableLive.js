@@ -27,7 +27,7 @@ class LeagueTableLive extends React.Component {
 
         sendApiGetRequest("http://localhost:8989/get-groups", (response) => {
             const teams = response.data;
-            const originalArray = this.state.leagueTable;
+            const originalArray = [...this.state.leagueTable];
             originalArray.map((currentClub, i) => {
                 currentClub.club = teams[i].name;
                 currentClub.id = teams[i].id;
@@ -45,6 +45,9 @@ class LeagueTableLive extends React.Component {
             })
         });
     }
+
+
+
     calc = (games, league) => {
         games.forEach(game => {
             let team1Index = league.findIndex(league => league.club === game.team1);
@@ -76,13 +79,26 @@ class LeagueTableLive extends React.Component {
             }
         });
 
-
-        this.setState({
-            leagueTable: league,
-        })
+        //
+        // this.setState({
+        //     leagueTable: league,
+        // })
 
 
     };
+
+// getData = () => {
+//     sendApiGetRequest("http://localhost:8989/get-all-matches", (response) => {
+//         const matches = response.data;
+//         const originalArray = this.state.leagueTable;
+//         const sortTable = this.sort(originalArray);
+//         this.setState({
+//             leagueTable:sortTable
+//         })
+//     })
+//
+// }
+
     sort = (leagueTable)=>{
         leagueTable.sort((team1, team2) => {
 
@@ -116,7 +132,10 @@ class LeagueTableLive extends React.Component {
 
     render() {
         return (
+
             <div className={"league-table"}>
+               <h6>League Table Live</h6>
+
                 <Tables league = {this.state.leagueTable}/>
 
                     {/*  <Tables data = {this.state.leagueTable}/>*/}

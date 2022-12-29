@@ -6,8 +6,10 @@ import React from "react";
 function Tables(props) {
     const leagueTable = props.league;
 
+
     return (
         <div className={"tables"}>
+
             <table>
                 <tr className={"col"}>
                     <th scope={"col"}>#</th>

@@ -6,7 +6,8 @@ import {sendApiGetRequest} from "./AppResponse";
 
 class LiveMatches extends React.Component{
     state= {
-        liveGames: []
+        liveGames: [],
+
     }
     componentDidMount() {
         sendApiGetRequest("http://localhost:8989/get-live-games" , (response)=>{
@@ -15,6 +16,15 @@ class LiveMatches extends React.Component{
             })
         })
     }
+
+    getData = () => {
+    sendApiGetRequest("http://localhost:8989/get-live-games" , (response)=>{
+        this.setState({
+            liveGames :response.data
+        })
+    })
+
+}
 
     colorTeam1 = (game) => {
         let colorStyle = "";
@@ -53,6 +63,7 @@ class LiveMatches extends React.Component{
     };
 
     renderLiveMatches = () => {
+        setInterval(this.getData, 1000);
         return (
             <div>
 
@@ -90,8 +101,7 @@ class LiveMatches extends React.Component{
         return (
             <div>
                 <div className="content">
-                    <h2>NO LIVE TONIGHT</h2>
-                    <h2>NO LIVE TONIGHT</h2>
+                    <h2>NO LIVE GAMES</h2>
                 </div>
 
             </div>

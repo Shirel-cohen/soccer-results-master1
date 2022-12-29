@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {sendApiGetRequest, sendApiPostRequest} from "./AppResponse";
 import Tables from "./Tables";
+import axios from "axios";
 
 
 
@@ -43,16 +44,21 @@ class LeagueTable extends React.Component{
                 const sortedTable = this.sort(originalArray);
                 this.setState({
                     leagueTable: sortedTable,
+                    matchesFinished: matchFinished
                 })
             })
         });
 
     }
-// componentDidUpdate(prevProps, prevState, snapshot) {
-//         if(prevProps.matchesFinished!==prevState.matchesFinished){
-//
-//         }
-// }
+    getData = () => {
+        sendApiGetRequest("http://localhost:8989/get-finished-matches" , (response)=>{
+            const matchFinished = response.data;
+            this.setState({
+                matchesFinished: matchFinished
+            })
+        })
+    }
+
 
     calc = (games , league)=>{
         games.forEach(game => {
@@ -86,10 +92,10 @@ class LeagueTable extends React.Component{
 
         });
 
-        this.setState({
-            leagueTable: league,
+        //this.setState({
+           // leagueTable: league,
 
-        })
+       // })
     }
 
     sort = (leagueTable)=>{
@@ -119,8 +125,10 @@ class LeagueTable extends React.Component{
             }
 
     render() {
+        setInterval(this.getData,1000);
         return (
             <div className={"league-table"}>
+                <h6>League Table</h6>
                 <Tables league = {this.state.leagueTable}/>
             </div>
         );
@@ -128,3 +136,4 @@ class LeagueTable extends React.Component{
 
 }
 export default LeagueTable;
+

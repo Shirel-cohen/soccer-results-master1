@@ -137,19 +137,12 @@ class Login extends  React.Component {
            if (team.team1===team1){
                debugger
                team.team1Goals
-                   +=goalsA;
+                   +=1;
            }
        })
         this.setState({
             liveMatches:array
         })
-        // let counter = this.state.groupOneGoals;
-        // let counter2 = this.state.groupTwoGoals;
-        //
-        // this.setState({
-        //     groupOneGoals: counter+1,
-        //     groupTwoGoals:counter2+1
-        // })
 
         sendApiPostRequest("http://localhost:8989/update-team1-goals", {
             team1: team1,
@@ -166,7 +159,7 @@ class Login extends  React.Component {
             if (team.team2===team2){
                 debugger
                 team.team2Goals
-                    +=goalsB;
+                    +=1;
             }
         })
         this.setState({
@@ -230,6 +223,7 @@ class Login extends  React.Component {
 
         })
     }
+
     renderLiveGamesForEdit = ()=>{
         return (
             <div>
