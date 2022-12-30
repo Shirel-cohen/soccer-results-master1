@@ -23,7 +23,7 @@ const LeagueTableLive=()=> {
     return (
 
         <div className={"league-table"}>
-            <h6>League Table Live</h6>
+            <h6 style={{marginTop:"-140px", fontSize:"40px"} }>League Table Live</h6>
             {leagueTable.length>0  &&
                 <Tables league = {leagueTable} games={games}/>}
         </div>

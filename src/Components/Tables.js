@@ -117,16 +117,16 @@ const sort = (leagueTable) => {
 
             <table>
                 <tr className={"col"}>
-                    <th scope={"col"}>#</th>
-                    <th className={"left"} scope={"coll"}>TEAM</th>
-                    <th scope={"col"}>PTS</th>
-                    <th scope={"col"}>W</th>
-                    <th scope={"col"}>D</th>
-                    <th scope={"col"}>L</th>
-                    <th scope={"col"}> GF</th>
-                    <th>GA</th>
-                    <th scope={"col"}>GD</th>
-                    {/*<th>POSITION</th>*/}
+
+                    <th className={"left"} >TEAM</th>
+                    <th scope={"coll"}>PTS</th>
+                    <th scope={"coll"}>W</th>
+                    <th scope={"coll"}>D</th>
+                    <th scope={"coll"}>L</th>
+                    <th scope={"coll"}> GF</th>
+                    <th scope={"coll"}>GA</th>
+                    <th scope={"coll"}>GD</th>
+
                 </tr>
 
                 {
@@ -134,7 +134,7 @@ const sort = (leagueTable) => {
                     table.map((team) => {
                         return (
                             <tr className={"wpos"}>
-                                <td>{team.id}</td>
+
                                 <td className={"left"} scope={"row"}>{team.club}</td>
                                 <td>{team.Points}</td>
                                 <td>{team.Won}</td>

@@ -7,6 +7,7 @@ import Login from "./Login";
 import '../others/index.css';
 import LiveMatches from "./LiveMatches";
 import LoginHooks from "./LoginHooks";
+import LiveMatchHooks from "./LiveMatchHooks";
 
 
 function App() {
@@ -38,8 +39,8 @@ function App() {
                 </ul>
 
                 <Routes>
-                    <Route exact path={"/"} element ={<Login/>}/>
-                    <Route path={"/LiveResults"} element ={<LiveMatches/>}/>
+                    <Route exact path={"/"} element ={<LoginHooks/>}/>
+                    <Route path={"/LiveResults"} element ={<LiveMatchHooks/>}/>
                     <Route path={"/LeagueTableLive"} element = {<LeagueTableLive/>}/>
                     <Route path={"/LeagueTable"}  element={<LeagueTable/>}/>
 

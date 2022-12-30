@@ -11,7 +11,7 @@ function RenderGame(props) {
 
             <table>
 
-                <tr id={"renderOption"}>
+                <tr >
                     <td>
                         <button onClick={() => {
                             props.addGoals1(match.team1Goals+1,match.team1)
@@ -19,10 +19,10 @@ function RenderGame(props) {
                         </button>
 
                     </td>
-                    {/*<td>{match.groupOneGoals}</td>*/}
+
                     <td >{match.team1}</td>
                     <td >{match.team2}</td>
-                    {/* <td>{match.groupTwoGoals}</td>*/}
+
                     <td>
                         <button onClick={() => {
                             props.addGoals2(match.team2Goals + 1, match.team2);

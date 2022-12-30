@@ -21,7 +21,7 @@ axios.get("http://localhost:8989/get-finished-matches").then((response)=>{
 
         return (
             <div className={"league-table"}>
-                <h6>League Table</h6>
+                <h6 style={{marginTop:"-140px", fontSize:"40px"} }>League Table</h6>
                 {
                     leagueTable.length>0 &&
 

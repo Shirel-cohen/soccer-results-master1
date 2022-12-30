@@ -118,6 +118,21 @@ function LoginHooks(){
             });
     }
     //
+    let updateTeamsNotPlaying = () => {
+        const teamsNotPlaying = clubs;
+        return teamsNotPlaying.filter(filterByLiveMatches);
+    }
+    let filterByLiveMatches = (team) => {
+        const liveMatchesToFilter = liveMatches;
+        let notPlaying = true;
+        liveMatchesToFilter.forEach ((live) => {
+            if(team.name === live.team1 || team.name === live.team2){
+                notPlaying = false;
+            }
+        });
+        return notPlaying;
+        console.log(notPlaying)
+    }
     useEffect(()=> {
 
     },[isGoalsChange])
@@ -128,11 +143,11 @@ function LoginHooks(){
 
             {
                 !userSignIn ?
-                    <div>
+                    <div className={"login"}>
 
-                        <input type="text" placeholder={"enter your username"} value={username} onChange={ (e)=> setUsername(e.target.value)}/> <br/><br/>
-                        <input type="password" placeholder={"enter your password"} value={password} onChange={ (e)=> setPassword(e.target.value)}/> <br/><br/>
-                        <button onClick={onSignIn}>login</button>
+                        <input type="text" placeholder={"enter your username"} value={username} onChange={ (e)=> setUsername(e.target.value)}/> <br/>
+                        <input type="password" placeholder={"enter your password"} value={password} onChange={ (e)=> setPassword(e.target.value)}/> <br/>
+                        <button type="login" onClick={onSignIn}>login</button>
 
                     </div>
                     :
@@ -142,7 +157,7 @@ function LoginHooks(){
                             <select id={"option1"} onChange={selectOption1} value={option1}>
                                 <option value="">please select a group</option>
                                 {
-                                    clubs.map((team, i) => {
+                                    updateTeamsNotPlaying().map((team, i) => {
                                         let disabled = team.name===option2;
                                         return (
                                             <option  value={team.name} disabled={disabled}>{team.name}</option>
@@ -160,7 +175,7 @@ function LoginHooks(){
 
                                 <option  value="">please select a group</option>
                                 {
-                                    clubs.map((team, i) => {
+                                    updateTeamsNotPlaying().map((team, i) => {
                                         let disabled = team.name===option1;
                                         return (
                                             <option value={team.name} disabled={disabled}>{team.name}</option>
@@ -170,22 +185,22 @@ function LoginHooks(){
                             </select>
                         </div>
                         <button onClick={saveMatch} disabled={option1==="" || option2===""}>save</button>
+                        <div>
                         {
                             saveButton &&
 
                                liveMatches.map((match) => {
                                    return(
-                                       <RenderGame match ={liveMatches} addGoals1={addGoalsGroupOne} addGoals2 = {addGoalsGroupTwo}
+                                       <div className={"renderLiveGames"}>
+                                       <RenderGame match ={match} addGoals1={addGoalsGroupOne} addGoals2 = {addGoalsGroupTwo}
                                        finish = {finishMatch}/>
+                                       </div>
                                    )
-                                   console.log(liveMatches)
+
                                })
-
-
-
-
-
                         }
+                    </div>
+
                     </div>
             }
 

@@ -64,7 +64,7 @@ class LiveMatches extends React.Component{
             <div>
 
                 <table>
-                    <tr className={"col"}>
+                    <tr >
                         <th>HOME</th>
                         <th>T1G</th>
                         <th>T2G</th>
@@ -108,7 +108,7 @@ class LiveMatches extends React.Component{
 
         return (
 
-            <div className={ "league-table"}>
+            <div className={ "liveMatches"}>
                 {
                     this.state.liveGames.length > 0 ? this.renderLiveMatches() : this.renderNoMatches()
 
