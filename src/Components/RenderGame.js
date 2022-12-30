@@ -1,4 +1,3 @@
-import React, {useEffect} from "react";
 
 function RenderGame(props) {
     const match = props.match;
@@ -7,29 +6,31 @@ function RenderGame(props) {
 
     return (
 
-        <div className={"tables"}>
+        <div>
 
             <table>
 
                 <tr >
-                    <td>
+                    <td style={{paddingLeft: "20px"}}>
                         <button onClick={() => {
-                            props.addGoals1(match.team1Goals+1,match.team1)
+                            props.addGoal(match.team1Goals + 1, match.team1, match.team2Goals, match.team2)
+
                         }}>Add goal
                         </button>
 
                     </td>
 
-                    <td >{match.team1}</td>
-                    <td >{match.team2}</td>
+                    <td style={{paddingLeft:"10px" , paddingRight:"20px"}}>{match.team1}</td>
+                    <td style={{paddingRight:"10px" , paddingLeft:"20px" }}>{match.team2}</td>
 
-                    <td>
+                    <td style={{paddingLeft:"20px"}}>
                         <button onClick={() => {
-                            props.addGoals2(match.team2Goals + 1, match.team2);
+                            props.addGoal(match.team1Goals , match.team1, match.team2Goals+ 1, match.team2)
+
                         }}>Add goal</button>
                     </td>
 
-                    <td>
+                    <td style={{paddingLeft:"40px"}}>
                         <button disabled={ match.team2.selected && match.team1.selected
                         } onClick={() => {
                             props.finish(match.team1,false)

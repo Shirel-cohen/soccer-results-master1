@@ -136,9 +136,9 @@ button[type=login] {
   border: none;
 }
 
- #addGoal{
-   margin: 20px;
- }
+#addGoal{
+  margin: 20px;
+}
 group1{
   padding: 14px 20px;
   margin: 8px 0;
@@ -158,6 +158,5 @@ group1{
 {
   margin-left:600px;
 }
-
 
 
