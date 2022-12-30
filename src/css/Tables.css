@@ -21,18 +21,40 @@
 th, td {
     /*padding: 10px;*/
 }
-th{
+/*th{*/
+/*    padding: 15px;*/
+/*    background-color: rgba(52, 140, 1, 0.25);*/
+/*    !*    color: #500000;*!*/
+/*    color: #c9ae06;*/
+th {
+    background-color: #026265;
+    color: white;
+    padding: 20px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 14px;
+
+}
+th, td {
+    border-bottom: 1px solid #ddd;
+    /*background-color: #ffffff;*/
     padding: 15px;
-    background-color: rgba(52, 140, 1, 0.25);
-    /*    color: #500000;*/
-    color: #c9ae06;
+    text-align: center;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 20px;
+
 }
 
+/*tr:nth-child(even) {background-color: #f2f2f2;}*/
 .wpos{
     text-align: center;
+    font-size:25px;
+
 }
 .wpos td{
-    color: rgb(201, 174, 6)
+    color: rgb(201, 156, 6);
+    background-color: #ffffff;
+
+
 }
 
 .wpos:hover{
@@ -45,4 +67,30 @@ th{
 }
 .left {
     padding-right: 250px;
+}
+.renderOption{
+    text-align: center;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 14px;
+}
+.renderOption td{
+    color: rgb(201, 174, 6);
+    font-family: "Lucida Console", "Courier New", monospace;
+
+
+
+}
+
+.renderOption:hover{
+    background-color: rgba(215, 213, 213, 0.1);
+    font-family: "Lucida Console", "Courier New", monospace;
+
+}
+.renderOption:hover.td{
+    color: rgb(79, 79, 66);
+    font-family: "Lucida Console", "Courier New", monospace;
+    padding-right: 250px;
+}
+.col td{
+    background-color: #ffffff;
 }

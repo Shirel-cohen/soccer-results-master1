@@ -130,13 +130,13 @@ class Login extends  React.Component {
     }
     addScoredGoals = (goalsA, team1) =>  {
         let array=[...this.state.liveMatches]
-       array.map(team=>{
-           if (team.team1===team1){
-               debugger
-               team.team1Goals
-                   +=1;
-           }
-       })
+        array.map(team=>{
+            if (team.team1===team1){
+                debugger
+                team.team1Goals
+                    +=1;
+            }
+        })
         this.setState({
             liveMatches:array
         })
@@ -192,7 +192,7 @@ class Login extends  React.Component {
                 liveMatches: res.data,
             })
         })
-         return  this.updateTeamsNotPlaying();
+        return  this.updateTeamsNotPlaying();
     }
 
     filterByLiveMatches = (club)=>{
@@ -262,7 +262,7 @@ class Login extends  React.Component {
                 {
                     this.state.renderOption ?
                         <div>
-                            <div id={"group1"}>
+                            <div className={"group1"}>
                                 Group 1
                                 <br/>
                                 <select id={"option1"} onChange={this.selectedGroup1}>
@@ -277,9 +277,8 @@ class Login extends  React.Component {
                                     }
                                 </select>
                             </div>
-                            <div id={"group2"}>
-                                <br/>
-                                <br/>
+                            <div className={"group2"}>
+
                                 Group 2
                                 <br/>
                                 <select id={"option2"} onChange={this.selectedGroup2}>
@@ -294,11 +293,11 @@ class Login extends  React.Component {
                                     }
                                 </select>
                             </div>
-                            <button onClick={this.saveMatch}
+                            <button id={"saveButton"} onClick={this.saveMatch}
                                     disabled={this.state.groupOneGoals !== 0 || this.state.groupTwoGoals !== 0}>save
                             </button>
                             {
-                               this.renderLiveGamesForEdit()
+                                this.renderLiveGamesForEdit()
                             }
                             <br/>
                             {/*<button onClick={this.finishMatch}*/}

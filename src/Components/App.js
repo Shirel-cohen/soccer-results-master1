@@ -6,6 +6,7 @@ import LeagueTableLive from "./LeagueTableLive";
 import Login from "./Login";
 import '../others/index.css';
 import LiveMatches from "./LiveMatches";
+import LoginHooks from "./LoginHooks";
 
 
 function App() {

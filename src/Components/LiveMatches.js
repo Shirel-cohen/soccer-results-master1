@@ -39,8 +39,6 @@ class LiveMatches extends React.Component{
 
         return colorStyle;
 
-        /*  <td style={{color :this.matchResult(game)}}>{game.team1}</td>
-          <td style={{color : this.matchResult(game)}}>{game.team1Goals}</td>*/
 
 
     };
@@ -58,8 +56,6 @@ class LiveMatches extends React.Component{
 
         return colorStyle;
 
-        /*  <td style={{color :this.matchResult(game)}}>{game.team1}</td>
-          <td style={{color : this.matchResult(game)}}>{game.team1Goals}</td>*/
     };
 
     renderLiveMatches = () => {
