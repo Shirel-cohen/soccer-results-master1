@@ -72,6 +72,7 @@ function LoginHooks(){
 
     const addGoalsGroupOne = (goalsA, team1) => {
         let array = liveMatches
+        debugger
         array.map(team => {
             if(team.team1 ===team1){
                 team.team1Goals += goalsA;
@@ -152,7 +153,8 @@ function LoginHooks(){
                     </div>
                     :
                     <div>
-                        <div id={"group1"}>
+                        <div id={"selection"}>
+                        <div id={"group1"} style={{fontWeight: "bold"}}>
                             Group1 <br/>
                             <select id={"option1"} onChange={selectOption1} value={option1}>
                                 <option value="">please select a group</option>
@@ -169,7 +171,7 @@ function LoginHooks(){
 
                         </div>
 
-                        <div id={"group2"}>
+                        <div id={"group2"} style={{fontWeight: "bold"}}>
                             Group2 <br/>
                             <select id={"option2"} onChange={selectOption2} value={option2}>
 
@@ -184,7 +186,8 @@ function LoginHooks(){
                                 }
                             </select>
                         </div>
-                        <button onClick={saveMatch} disabled={option1==="" || option2===""}>save</button>
+                        <button id={"saveButton"} onClick={saveMatch} disabled={option1==="" || option2===""}>save</button>
+                        </div>
                         <div>
                         {
                             saveButton &&

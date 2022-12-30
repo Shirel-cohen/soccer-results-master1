@@ -76,7 +76,7 @@ const  renderNoMatches = () => {
     return (
         <div>
             <div className="content">
-                <h2>NO LIVE GAMES</h2>
+                <h2 style={{marginRight:"500px",marginTop:"-70px"}}>NO LIVE GAMES</h2>
             </div>
 
         </div>

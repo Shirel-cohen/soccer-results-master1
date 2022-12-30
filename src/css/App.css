@@ -147,9 +147,16 @@ group1{
 
 }
 .renderLiveGames{
+  border: 1px;
+  width:40%;
+  background-color: #216280;
   padding-top: 14px ;
   position:relative;left:50px;  top:-400px;
 
+}
+#selection
+{
+  margin-left:600px;
 }
 
 
